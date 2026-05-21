@@ -1,0 +1,7 @@
+#Thu May 21 12:14:07 GMT+04:00 2026
+base.0=C\:\\Users\\79260\\Desktop\\Render3D\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.1=C\:\\Users\\79260\\Desktop\\Render3D\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\8\\classes.dex
+path.0=0/classes.dex
+path.1=8/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

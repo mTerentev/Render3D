@@ -1,0 +1,10 @@
+#version 300 es
+precision highp float;
+in vec2 v_Point;
+out vec4 out_color;
+uniform sampler2D tex;
+void main()
+{
+	//out_color = vec4(0.7,0.4,0.1,1.0);
+	out_color = vec4(texture(tex,v_Point));
+}

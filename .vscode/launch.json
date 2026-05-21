@@ -1,0 +1,30 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Debug Android App",
+			"request": "launch",
+			"mainClass": "com.mycompany.render3d.MainActivity",
+			"projectName": "app",
+			"console": "integratedTerminal",
+			"args": [],
+			"vmArgs": "-Xmx512m",
+			"env": {
+				"ANDROID_HOME": "${env:ANDROID_HOME}",
+				"JAVA_HOME": "${env:JAVA_HOME}"
+			}
+		},
+		{
+			"type": "java",
+			"name": "Run Gradle Build",
+			"request": "launch",
+			"mainClass": "org.gradle.launcher.GradleMain",
+			"projectName": "Render3D",
+			"args": [
+				"assembleDebug"
+			],
+			"console": "integratedTerminal"
+		}
+	]
+}

@@ -1,0 +1,5 @@
+com.mycompany.render3d:style/AppTheme = 0x7f040000
+com.mycompany.render3d:string/app_name = 0x7f030000
+com.mycompany.render3d:string/hello_world = 0x7f030001
+com.mycompany.render3d:layout/main = 0x7f020000
+com.mycompany.render3d:drawable/ic_launcher = 0x7f010000

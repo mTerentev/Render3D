@@ -1,0 +1,81 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Debug APK",
+			"type": "shell",
+			"command": "gradle",
+			"args": ["assembleDebug"],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gradle"
+			],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Build Release APK",
+			"type": "shell",
+			"command": "gradle",
+			"args": ["assembleRelease"],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gradle"
+			],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Clean Build",
+			"type": "shell",
+			"command": "gradle",
+			"args": ["clean"],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gradle"
+			]
+		},
+		{
+			"label": "Run All Tests",
+			"type": "shell",
+			"command": "gradle",
+			"args": ["test"],
+			"group": "test",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gradle"
+			]
+		},
+		{
+			"label": "Install Debug APK on Device",
+			"type": "shell",
+			"command": "adb",
+			"args": [
+				"install",
+				"-r",
+				"app/build/outputs/apk/debug/app-debug.apk"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		}
+	]
+}

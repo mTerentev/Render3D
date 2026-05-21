@@ -1,0 +1,8 @@
+#version 300 es
+in vec2 a_Position;
+out vec2 v_Point;
+void main()
+{
+	v_Point = (a_Position + vec2(1,1)) / 2.0;
+	gl_Position = vec4(a_Position,0,1);
+}

@@ -1,0 +1,35 @@
+#version 300 es
+precision highp float;
+in vec4 v_Color;
+in vec3 v_Normale;
+in vec3 v_Point;
+in vec4 v_LocPoint;
+out vec4 out_color;
+uniform vec3 u_Light;
+uniform vec3 u_Camera;
+
+void main()
+{
+	float k_dif=0.5;//diffusion koefficient
+  	float default_dif=0.4;
+  	float k_ref=0.5;//reflection koefficient
+
+	vec3 n = normalize(v_Normale);
+	vec3 l = normalize(u_Light-v_Point);
+	vec3 c = normalize(u_Camera-v_Point);
+	
+  	float dif=0.0;
+  	vec4 ref=vec4(0);
+  
+  	if(k_dif!=0.0){
+    	dif=max(dot(n,l),0.0)*k_dif;
+  	}
+  	if(k_ref!=0.0){
+    	ref=vec4(1)*max(dot(n,normalize(c+l))*
+    	10.0-9.0,0.0)*k_ref;
+  	}
+  	
+  	//out_color = vec4(((v_LocPoint.z+10.0)/20.0), 1.0-((v_LocPoint.z+10.0)/20.0), 0.0, 1.0);
+  	
+  	out_color = v_Color*(dif+default_dif)+ref;
+}

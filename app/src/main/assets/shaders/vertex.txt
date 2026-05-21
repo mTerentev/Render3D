@@ -1,0 +1,22 @@
+#version 300 es
+in vec3 a_Position;
+in vec4 a_Color;
+in vec3 a_Normale;
+out vec4 v_Color;
+out vec3 v_Normale;
+out vec3 v_Point;
+out vec4 v_LocPoint;
+uniform mat4 u_MVPmatrix;
+void main()
+{
+	v_Color = a_Color;
+	v_Normale = a_Normale;
+	v_Point = a_Position;
+	v_LocPoint = u_MVPmatrix * vec4(a_Position,1);
+	
+	//v_LocPoint.z = v_LocPoint.z/10.0;
+	
+	gl_Position = v_LocPoint;
+	
+	gl_PointSize = 1.0;
+}

@@ -1,0 +1,22 @@
+{
+	"recommendations": [
+		// Java Development
+		"vscjava.vscode-java-pack",
+		"vscjava.vscode-java-dependency",
+		"vscjava.vscode-java-debug",
+		"vscjava.vscode-maven",
+		// Android Development
+		"android-android-code-completion",
+		// Gradle Support
+		"esbenp.prettier-vscode",
+		"dingyi.gradle-task-explorer",
+		// GLSL Shader Support
+		"slevesque.shader",
+		"tintinweb.glsl-canvas",
+		// XML Support
+		"redhat.vscode-xml",
+		// Git Tools
+		"github.vscode-pull-request-github",
+		"eamodio.gitlens"
+	]
+}

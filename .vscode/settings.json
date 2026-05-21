@@ -1,0 +1,39 @@
+{
+    // Java Language Support
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.completion.importOrder": ["#", "java", "javax", "android", ""],
+    "java.completion.favoriteStaticMembers": [
+        "android.opengl.GLES20.*",
+        "android.opengl.Matrix.*"
+    ],
+    
+    // Code Formatting
+    "java.format.settings.profile": "Android",
+    "java.format.enabled": "files",
+    
+    // Editor Settings
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "files.encoding": "utf-8",
+    "files.exclude": {
+        "**/.gradle": true,
+        "**/build": true,
+        "**/.idea": true,
+        "**/*.iml": true
+    },
+    
+    // Gradle Support
+    "gradle.wrapperEnabled": true,
+    "gradle.tasks": ["build", "assembleDebug", "assembleRelease"],
+    
+    // IntelliSense for GLSL shaders
+    "[glsl]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    
+    // Android-specific settings
+    "android.sdkPath": "${env:ANDROID_HOME}",
+    "android.javaHome": "${env:JAVA_HOME}"
+}
