@@ -176,6 +176,25 @@ public class Renderer implements GLSurfaceView.Renderer
     @Override
     public void onDrawFrame(GL10 glUnused)
     {
+		//light_source to global matrix
+		mMatrix VMatrix = new mMatrix(4)
+			.MMultiply(new mMatrix(4).Rotate(60,0,1,0))
+			.MMultiply(new mMatrix(4).Rotate(-60,1,0,0))
+			.MMultiply(new mMatrix(4).Translate(0,0,-7));
+
+		VMatrix = VMatrix.inverse();
+
+		//camera_source to global matrix
+		mMatrix VMatrix1 = new mMatrix(4)
+			.MMultiply(new mMatrix(4).Rotate(0,1,0,0))
+			.MMultiply(new mMatrix(4).Rotate(0,0,1,0))
+			.MMultiply(new mMatrix(4).Translate(0,0,-7));
+
+		VMatrix1 = VMatrix1.inverse();
+
+
+		mMatrix PMatrix = new mMatrix(4)
+		.Perspective(100,aspect,0.1f,100);
 		
 		//Create Depth mask texture
 		
@@ -188,33 +207,22 @@ public class Renderer implements GLSurfaceView.Renderer
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-		
-		//
-		
 
-		 for(Object3D obj:scene){
-		 mMatrix VMatrix = new mMatrix(4).Rotate(0,1,0,0)
-		 .MMultiply(new mMatrix(4).Rotate(35,0,1,0))
-		 .MMultiply(new mMatrix(4).Translate(0,0,-7));
+		for(Object3D obj:scene){
+		 
+			mMatrix AMMatrix = obj.Animate(time,obj.MMatrix);
+			mMatrix MVPMatrix = new mMatrix(4)
+			.MMultiply(PMatrix)
+			.MMultiply(VMatrix)
+			.MMultiply(AMMatrix);
 
-		 VMatrix = VMatrix.inverse();
-
-		 mMatrix PMatrix = new mMatrix(4)
-		 .Perspective(100,aspect,0.1f,100);
-
-		 mMatrix AMMatrix = obj.Animate(time,obj.MMatrix);
-		 mMatrix MVPMatrix = new mMatrix(4)
-		 .MMultiply(PMatrix)
-		 .MMultiply(VMatrix)
-		 .MMultiply(AMMatrix);
-
-		 int MVPmatrixHandle = GLES20.glGetUniformLocation(programHandleShades,"u_MVPmatrix");
-		 GLES20.glUniformMatrix4fv(MVPmatrixHandle,1,false,MVPMatrix.arr,0);
-			 
-		 for(FloatBuffer face: obj.facesb){
-		 DrawFace(face);
-		 }
-		 }
+			int MVPmatrixHandle = GLES20.glGetUniformLocation(programHandleShades,"u_MVPmatrix");
+			GLES20.glUniformMatrix4fv(MVPmatrixHandle,1,false,MVPMatrix.arr,0);
+				
+			for(FloatBuffer face: obj.facesb){
+				DrawFace(face);
+			}
+		}
 		//GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_DEPTH_ATTACHMENT, GLES20.GL_TEXTURE_2D, depthMap[0], 0);
 		GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 		
@@ -260,48 +268,52 @@ public class Renderer implements GLSurfaceView.Renderer
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
 		GLES20.glDisableVertexAttribArray(0);
 		
-		//Main draw
-		/*
-		GLES20.glUseProgram(programHandle);
+		// //Main draw
 		
-        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+		// GLES20.glUseProgram(programHandle);
 		
+
+        // GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 		
-		for(Object3D obj:scene){
-			mMatrix VMatrix = new mMatrix(4).Rotate(0,1,0,0)
-				.MMultiply(new mMatrix(4).Rotate(35,0,1,0))
-				.MMultiply(new mMatrix(4).Translate(0,0,-7));
-				
-			VMatrix = VMatrix.inverse();
+		// GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, depthMap[0]);
+		
+		// Object3D[] scn = {scene[1]};
+		// for(Object3D obj:scn){
+		// //for(Object3D obj:scene){
+		
+		// 	mMatrix AMMatrix = obj.Animate(time,obj.MMatrix);
+		// 	//Global frame to screen frame matrix
+		// 	mMatrix MVPMatrix = new mMatrix(4)
+		// 		.MMultiply(PMatrix)
+		// 		.MMultiply(VMatrix)
+		// 		.MMultiply(AMMatrix);
 
-			mMatrix PMatrix = new mMatrix(4)
-				.Perspective(60,aspect,0.1f,100);
-			
-			mMatrix AMMatrix = obj.Animate(time,obj.MMatrix);
-			mMatrix MVPMatrix = new mMatrix(4)
-				.MMultiply(PMatrix)
-				.MMultiply(VMatrix)
-				.MMultiply(AMMatrix);
+		// 	int MmatrixHandle = GLES20.glGetUniformLocation(programHandle,"u_Mmatrix");
+		// 	GLES20.glUniformMatrix4fv(MmatrixHandle,1,false,AMMatrix.arr,0);
 
-			int MVPmatrixHandle = GLES20.glGetUniformLocation(programHandle,"u_MVPmatrix");
-			GLES20.glUniformMatrix4fv(MVPmatrixHandle,1,false,MVPMatrix.arr,0);
+		// 	int VPmatrixHandle = GLES20.glGetUniformLocation(programHandle,"u_VPmatrix");
+		// 	GLES20.glUniformMatrix4fv(VPmatrixHandle,1,false,PMatrix.MMultiply(VMatrix).arr,0);
 
-			
-			float[] n = AMMatrix.inverse().VMultiply(lamp);
-			int LightHandle = GLES20.glGetUniformLocation(programHandle,"u_Light");
-			GLES20.glUniform3fv(LightHandle, 1, n, 0);
+		// 	int MVPmatrixHandle = GLES20.glGetUniformLocation(programHandle,"u_MVPmatrix");
+		// 	GLES20.glUniformMatrix4fv(MVPmatrixHandle,1,false,MVPMatrix.arr,0);
 
-			n = new float[]{0,0,0,1};
-			n = AMMatrix.inverse().MMultiply(VMatrix.inverse()).VMultiply(n);
-			int CameraHandle = GLES20.glGetUniformLocation(programHandle,"u_Camera");
-			GLES20.glUniform3fv(CameraHandle, 1, n, 0);
+		// 	float[] n = new float[]{0,0,0,1};
+		// 	n = AMMatrix.inverse().MMultiply(VMatrix1.inverse()).VMultiply(n);
+		// 	int LightHandle = GLES20.glGetUniformLocation(programHandle,"u_Light");
+		// 	GLES20.glUniform3fv(LightHandle, 1, n, 0);
 
-			for(FloatBuffer face: obj.facesb){
-				DrawFace(face);
-			}
-		}
-		*/
+		// 	n = new float[]{0,0,0,1};
+		// 	n = AMMatrix.inverse().MMultiply(VMatrix.inverse()).VMultiply(n);
+		// 	int CameraHandle = GLES20.glGetUniformLocation(programHandle,"u_Camera");
+		// 	GLES20.glUniform3fv(CameraHandle, 1, n, 0);
+
+		// 	for(FloatBuffer face: obj.facesb){
+		// 		DrawFace(face);
+		// 	}
+		// }
+		
     }
+	
 	
 	private void DrawFace(FloatBuffer aPlaneBuffer){
 		aPlaneBuffer.position(0);
